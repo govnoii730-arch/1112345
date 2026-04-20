@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Админ — CloudVisuals{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="card">
+        <h2 style="margin:0 0 8px;">Админ панель</h2>
+        <p class="muted">Обработка заказов, ручная выдача и мониторинг лицензий.</p>
+        {% if msg %}
+            <div class="success">{{ msg }}</div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="card">
+        <h3>Заказы</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Пользователь</th>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                    <th>Оплата</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for o in orders %}
+                    <tr>
+                        <td>#{{ o.id }}</td>
+                        <td>{{ o.username }}<br><span class="muted">{{ o.email }}</span></td>
+                        <td>{{ o.product_name or (o.plan_days ~ ' дней') }}</td>
+                        <td>{{ o.price_rub }} ₽</td>
+                        <td>{{ o.payment_status or '-' }}</td>
+                        <td>
+                            {% if o.status == 'new' %}
+                                <span class="status-new">new</span>
+                            {% elif o.status == 'approved' %}
+                                <span class="status-approved">approved</span>
+                            {% else %}
+                                <span class="status-rejected">rejected</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if o.status == 'new' %}
+                                <form method="post" action="/admin/orders/{{ o.id }}/approve" style="display:grid;gap:6px;min-width:220px;">
+                                    <input name="days_override" type="number" min="1" max="365000" placeholder="Дней (0 = авто)">
+                                    <input name="max_hwid_override" type="number" min="1" max="10" placeholder="HWID (0 = авто)">
+                                    <input name="admin_note" placeholder="Комментарий">
+                                    <button type="submit">Одобрить</button>
+                                </form>
+                                <form method="post" action="/admin/orders/{{ o.id }}/reject" style="margin-top:6px;display:grid;gap:6px;">
+                                    <input name="admin_note" placeholder="Причина отказа">
+                                    <button type="submit" class="ghost">Отклонить</button>
+                                </form>
+                            {% else %}
+                                <span class="muted">Обработан</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="7" class="muted">Заказов нет</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="card">
+        <h3>Последние лицензии</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Ключ</th>
+                    <th>HWID</th>
+                    <th>Создан</th>
+                    <th>До</th>
+                    <th>Последний вход</th>
+                    <th>Статус</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in recent_licenses %}
+                    <tr>
+                        <td>{{ item.display_key|mask_key }}</td>
+                        <td>{{ item.max_hwid }}</td>
+                        <td>{{ item.created_at|format_ts }}</td>
+                        <td>{{ item.expires_at|format_ts }}</td>
+                        <td>{{ item.last_seen_at|format_ts }}</td>
+                        <td>{% if item.enabled %}<span class="status-approved">active</span>{% else %}<span class="status-rejected">disabled</span>{% endif %}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="muted">Лицензий пока нет</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

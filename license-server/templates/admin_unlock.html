@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Админ панель — CloudVisuals{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="form card">
+        <h2 style="margin-top: 0;">Доступ к админ панели</h2>
+        <p class="muted">
+            Введи код администратора, чтобы открыть раздел управления заказами, лицензиями и ручными проверками.
+        </p>
+        {% if msg %}
+            <div class="error">{{ msg }}</div>
+        {% endif %}
+        <form method="post" action="/dashboard/unlock-admin">
+            <div class="field">
+                <label for="admin_code">Код доступа</label>
+                <input id="admin_code" type="text" name="admin_code" placeholder="Введите код" autocomplete="off" required>
+            </div>
+            <button type="submit">Открыть админ панель</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

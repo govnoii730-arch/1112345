@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Профиль — CloudVisuals{% endblock %}
+{% block content %}
+<section class="section dashboard-shell">
+    <aside class="dashboard-sidebar">
+        <a class="side-btn active" href="/dashboard">Аккаунт</a>
+        <a class="side-btn" href="/buy">Купить</a>
+        <a class="side-btn" href="/install">Установить клиент</a>
+        {% if user.is_admin == 1 %}
+            <a class="side-btn" href="/admin">Админ панель</a>
+        {% else %}
+            <a class="side-btn" href="/dashboard/admin-panel">Админ панель</a>
+        {% endif %}
+    </aside>
+
+    <main class="dashboard-main">
+        <h1>Привет, <span class="accent-gray">{{ user.username }}</span></h1>
+
+        {% if msg %}
+            <div class="success" style="margin-top: 14px;">{{ msg }}</div>
+        {% endif %}
+
+        <div class="info-box" style="margin-top: 18px;">
+            <table class="profile-table">
+                <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th>Роль</th>
+                    <td>{% if user.is_admin == 1 %}Администратор{% else %}Пользователь{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>HWID</th>
+                    <td>Привязка выполняется при первом входе в клиент</td>
+                </tr>
+                <tr>
+                    <th>Активация лицензии</th>
+                    <td>
+                        <form method="post" action="/dashboard/activate-license" class="inline-form">
+                            <input type="text" name="license_key" placeholder="Введите ключ" autocomplete="off" required>
+                            <button type="submit">Активировать</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Установка</th>
+                    <td>
+                        <a class="button" href="/install">Установить CloudVisuals</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</section>
+{% endblock %}

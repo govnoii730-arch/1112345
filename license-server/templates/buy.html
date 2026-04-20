@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}CloudVisuals — Товары{% endblock %}
+{% block content %}
+<section class="hero compact-hero">
+    <h1>Товары</h1>
+    <p>Только тарифы и отдельная кнопка покупки у каждого товара.</p>
+</section>
+
+{% set product_names = {
+    "cv30": "Клиент на 30 дней",
+    "cv90": "Клиент на 90 дней",
+    "cvforever": "Клиент навсегда"
+} %}
+{% set product_subtitles = {
+    "cv30": "Оптимально для старта",
+    "cv90": "Лучший по цене за месяц",
+    "cvforever": "Один раз и без продлений"
+} %}
+
+{% if msg %}
+<section class="section">
+    <div class="success">{{ msg }}</div>
+</section>
+{% endif %}
+
+<section class="section products-grid">
+    {% for product in products %}
+        <article class="product-card glass">
+            <h3>{{ product_names.get(product.code, product.code) }}</h3>
+            <p class="muted">{{ product_subtitles.get(product.code, '') }}</p>
+            <div class="price">{{ product.price_rub }} ₽</div>
+            <ul class="features">
+                <li>Мгновенная выдача ключа</li>
+                <li>Кабинет и история заказов</li>
+                <li>Проверка лицензии на сервере</li>
+            </ul>
+            <a class="button buy-btn" href="/checkout/{{ product.code }}">Купить</a>
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}

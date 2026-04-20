@@ -1,0 +1,16 @@
+[Unit]
+Description=CloudVisuals License API
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/cloudvisuals-license
+EnvironmentFile=/opt/cloudvisuals-license/.env
+ExecStart=/opt/cloudvisuals-license/.venv/bin/python /opt/cloudvisuals-license/app.py
+Restart=always
+RestartSec=3
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,42 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "ru.mytheria.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ArmorFeatureRendererMixin",
+    "BackgroundRendererMixin",
+    "CloudRendererMixin",
+    "WorldEnvironmentMixin",
+    "KeyBoardMixin",
+    "MouseMixin",
+    "TitleScreenMixin",
+    "ChatScreenMixin",
+    "ChatHudAnimationMixin",
+    "InGameHudMixin",
+    "InGameHudAnimationMixin",
+    "PlayerListHudAnimationMixin",
+    "HandledScreenShullkerPreviewMixin",
+    "BossBarHudMixin",
+    "InGameOverlayRendererMixin",
+    "WorldRendererMixin",
+    "GameRendererAspectRatioMixin",
+    "ItemEntityRendererMixin",
+    "ParticleManagerMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "MinecraftClientShutdownMixin",
+    "ClientPlayerInteractionManagerMixin",
+    "ClientPlayerEntityMixin",
+    "IClientPlayerInteractionManager",
+    "accessor.BossBarHudAccessor",
+    "accessor.MinecraftClientAccessor",
+    "accessor.ClientPlayerEntityAccessor",
+    "accessor.LivingEntityInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

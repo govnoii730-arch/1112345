@@ -1,0 +1,10 @@
+.gradle/
+build/
+run/
+.idea/
+out/
+*.iml
+*.log
+
+# Prevent accidental nested repo inclusion
+CloudVisuals/

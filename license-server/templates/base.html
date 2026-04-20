@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CloudVisuals{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="container topbar-row">
+        <a href="/" class="logo">CloudVisuals</a>
+        <nav class="menu">
+            <a class="button ghost" href="/">Главная</a>
+            <a class="button ghost" href="/buy">Купить</a>
+            {% if user %}
+                <a class="button ghost" href="/dashboard">Профиль</a>
+                {% if user.is_admin == 1 %}
+                    <a class="button ghost" href="/admin">Админ</a>
+                {% endif %}
+                <form method="post" action="/logout">
+                    <button type="submit">Выйти</button>
+                </form>
+            {% else %}
+                <a class="button ghost" href="/login">Вход</a>
+                <a class="button" href="/register">Регистрация</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+
+<main class="container page-enter">
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

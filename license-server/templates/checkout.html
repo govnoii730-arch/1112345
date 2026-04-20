@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Оформление — CloudVisuals{% endblock %}
+{% block content %}
+{% set product_names = {
+    "cv30": "Клиент на 30 дней",
+    "cv90": "Клиент на 90 дней",
+    "cvforever": "Клиент навсегда"
+} %}
+<section class="section checkout-wrap">
+    <div class="card">
+        <h2>Оформление заказа</h2>
+        <p class="muted">Товар: {{ product_names.get(product.code, product.code) }} — {{ product.price_rub }} ₽</p>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        {% if not user %}
+            <div class="error">Для покупки сначала войди в аккаунт.</div>
+            <a class="button" href="/login">Войти</a>
+        {% else %}
+            <form method="post" action="/checkout/{{ product.code }}/pay">
+                <div class="field">
+                    <label>Способ оплаты</label>
+                    <select name="payment_method">
+                        <option value="card">Банковская карта</option>
+                        <option value="sbp">СБП</option>
+                        <option value="crypto">Криптовалюта</option>
+                    </select>
+                </div>
+                <div class="row two">
+                    <div class="field">
+                        <label>Контакт (Telegram/Discord)</label>
+                        <input name="contact" placeholder="@nickname">
+                    </div>
+                    <div class="field">
+                        <label>Комментарий</label>
+                        <input name="comment" placeholder="Необязательно">
+                    </div>
+                </div>
+                <button type="submit" class="button">Оплатить {{ product.price_rub }} ₽</button>
+            </form>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>Что ты получишь</h3>
+        <ul class="features">
+            <li>Лицензионный ключ CloudVisuals</li>
+            <li>Авто-выдача сразу после оплаты</li>
+            <li>Привязка к одному устройству</li>
+            <li>Отображение в личном кабинете</li>
+        </ul>
+        <a class="button ghost" href="/buy">Назад к тарифам</a>
+    </div>
+</section>
+{% endblock %}

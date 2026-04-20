@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Регистрация — CloudVisuals{% endblock %}
+{% block content %}
+<section class="form card">
+    <h2>Создать аккаунт</h2>
+    <p class="muted">Регистрация займет 20 секунд.</p>
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+    <form method="post" action="/register">
+        <div class="field">
+            <label>Ник</label>
+            <input name="username" required>
+        </div>
+        <div class="field">
+            <label>Почта</label>
+            <input type="email" name="email" required>
+        </div>
+        <div class="field">
+            <label>Пароль</label>
+            <input type="password" name="password" required>
+        </div>
+        <div class="field">
+            <label>Повтор пароля</label>
+            <input type="password" name="confirm_password" required>
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p class="muted">Уже есть аккаунт? <a href="/login">Войти</a></p>
+</section>
+{% endblock %}
